@@ -80,23 +80,44 @@ tempfile all
 save `all' , emptyok
 
 use "${git}/constructed/qbs.dta" , clear
-drop hypr1_a hypr1_b
+  drop hypr1_a hypr1_b
+qui foreach var of varlist *a {
+  local type = substr("`var'",1,strpos("`var'","_")-1)
+  gen `type'_d = (`type'_b/`type'_a)
+}
+  pca *_d
+  mat pca = e(L)
 
 // Set up ultra-long data
+local x = 0
 qui foreach var of varlist *a {
+  local ++x
   preserve
   local type = substr("`var'",1,strpos("`var'","_")-1)
   local label : var label `var'
   keep uid year `type'_?
   gen type = "`label'"
   ren `type'_? ?
+  gen weight = pca[`x',1]
+  drop d
   append using `all'
     save `all' , replace
   restore
 }
 
 use `all' , clear
+encode type , gen(type_code)
 
+bys year type_code : egen a_bar = mean(a)
+bys year type_code : egen b_bar = mean(b)
 
+gen d = (b+b_bar)/(a+a_bar)
+  collapse (mean) vjt_nb = d [pweight=weight], by(uid year)
+    lab var vjt_nb "Need Based VA"
+  gen qbs_nb = vjt_nb * 800
+    lab var qbs_nb "Need Based QBS"
+  keep uid year vjt_nb qbs_nb
+
+  save "${git}/constructed/need-based.dta" , replace
 
 //

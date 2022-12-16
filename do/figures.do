@@ -47,7 +47,7 @@ foreach var of varlist *_a {
 
 // Value add
 use "${git}/constructed/qbs.dta" , clear
-  merge 1:1 uid year using "${git}/constructed/value-add.dta"
-
+  merge 1:1 uid year using "${git}/constructed/value-add.dta" , nogen
+  merge 1:1 uid year using "${git}/constructed/need-based.dta" , nogen
 
 //
