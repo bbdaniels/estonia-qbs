@@ -45,4 +45,9 @@ foreach var of varlist *_a {
 
   graph combine `graphs'
 
+// Value add
+use "${git}/constructed/qbs.dta" , clear
+  merge 1:1 uid year using "${git}/constructed/value-add.dta"
+
+
 //
