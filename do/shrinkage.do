@@ -70,7 +70,7 @@ gen w = `u' / (`u' + (1/a))
 
   keep uid year vjt_shr vjt_bar
     lab var vjt_bar "Naive Value Add"
-    lab var vjt_shr "Shrunken Value Add"
+    lab var vjt_shr "Kaine-Saiger Value Add"
 
   save "${git}/constructed/value-add.dta" , replace
 
@@ -113,7 +113,7 @@ bys year type_code : egen b_bar = mean(b)
 
 gen d = (b+b_bar)/(a+a_bar)
   collapse (mean) vjt_nb = d [pweight=weight], by(uid year)
-    lab var vjt_nb "Need Based VA"
+    lab var vjt_nb "Need Based Performance"
   gen qbs_nb = vjt_nb * 800
     lab var qbs_nb "Need Based QBS"
   keep uid year vjt_nb qbs_nb
