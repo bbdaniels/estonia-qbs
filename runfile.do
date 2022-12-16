@@ -1,7 +1,7 @@
 // Set global path locations
 
-  global box ""
-  global git ""
+  global box "/Users/bbdaniels/Library/CloudStorage/Box-Box/_Papers/Estonia QBS/"
+  global git "/Users/bbdaniels/GitHub/estonia-qbs"
     sysdir set PLUS "${git}/ado/"
     sysdir set PERSONAL "${git}/"
 
