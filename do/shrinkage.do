@@ -80,7 +80,6 @@ tempfile all
 save `all' , emptyok
 
 use "${git}/constructed/qbs.dta" , clear
-  drop hypr1_a hypr1_b
 qui foreach var of varlist *a {
   local type = substr("`var'",1,strpos("`var'","_")-1)
   gen `type'_d = (`type'_b/`type'_a)
